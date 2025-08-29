@@ -1,274 +1,1011 @@
-<!-- 
-  IMPORTANT: This file should be named 'index.html' and placed in the root
-  of your 'projectwebpge' folder, NOT inside the 'assets' folder.
--->
 <!DOCTYPE html>
 <html lang="en" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>KALLURU PAVAN KUMAR REDDY - Portfolio</title>
+    <title>KALLURU PAVAN KUMAR REDDY - Full Stack Developer</title>
+    
+    <!-- Tailwind CSS for styling -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <!-- Three.js for 3D Globe -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <!-- AOS for scroll animations -->
+    <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
+    <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
     <style>
+        /* Custom styles to match the design */
+        html, body {
+            width: 100vw;
+            overflow-x: hidden;
+        }
         body {
             font-family: 'Inter', sans-serif;
+            background-color: #ffffff;
+            color: #111827;
+            transition: background-color 0.3s, color 0.3s;
+            padding: 16px; /* Added padding on all sides */
         }
-        .glass-effect {
-            background: rgba(255, 255, 255, 0.7);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.3);
+
+        /* Responsive container and padding adjustments */
+        .container {
+            max-width: 100vw;
+            width: 100%;
+            padding-left: 0.75rem;
+            padding-right: 0.75rem;
+            box-sizing: border-box;
         }
-        #header.scrolled {
-            background-color: rgba(255, 255, 255, 0.85);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+        @media (max-width: 640px) {
+            .container {
+                padding-left: 0.5rem;
+                padding-right: 0.5rem;
+            }
+            h1, h2 {
+                font-size: 2rem !important;
+                line-height: 2.5rem !important;
+            }
+            .accent-dot {
+                font-size: 2rem !important;
+            }
+            .accent-bar {
+                font-size: 1rem !important;
+            }
+            section,
+            .card,
+            .hero-img-container,
+            #globe-container {
+                max-width: 100vw !important;
+                box-sizing: border-box;
+            }
+
         }
-        /* Style for the typewriter cursor */
-        .typewriter h1 .cursor {
-            display: inline-block;
-            background-color: #333;
-            margin-left: 0.1rem;
-            width: 3px;
-            animation: blink 1s infinite;
+        /* Make hero image responsive */
+        .hero-img-container {
+            width: 100%;
+            max-width: 320px;
+            height: auto;
+            aspect-ratio: 1/1;
+            margin: 0 auto;
         }
-        @keyframes blink {
-            0% { background-color: #333; }
-            49% { background-color: #333; }
-            50% { background-color: transparent; }
-            99% { background-color: transparent; }
-            100% { background-color: #333; }
+        @media (max-width: 768px) {
+            .hero-img-container {
+                max-width: 220px;
+            }
+        }
+        /* Responsive globe container */
+        #globe-container {
+            width: 100%;
+            height: 200px;
+            min-height: 160px;
+            max-width: 320px;
+            margin: 0 auto;
+        }
+        @media (max-width: 768px) {
+            #globe-container {
+                height: 160px;
+                max-width: 200px;
+            }
+        }
+        /* ===== DARK MODE STYLES ===== */
+        .dark body {
+            background-color: #111827 !important;
+            color: #F9FAFB !important;
+        }
+        .dark html {
+            background-color: #111827 !important;
+        }
+        
+        /* Force dark mode on mobile devices */
+        @media (max-width: 768px) {
+            .dark .bg-gray-100,
+            .dark .card {
+                background-color: #1F2937 !important;
+            }
+            .dark .text-gray-600,
+            .dark .text-gray-700,
+            .dark .text-gray-800 {
+                color: #E5E7EB !important;
+            }
+            .dark .bg-gray-200 {
+                background-color: #374151 !important;
+            }
+        }
+        
+        /* Navigation */
+        .dark .nav-link, .dark .experience-tab {
+            color: #D1D5DB !important;
+        }
+        .dark .nav-link-active, .dark .experience-tab-active {
+            color: #8B5CF6 !important;
+        }
+        .dark #mobile-nav {
+            background-color: #111827 !important;
+        }
+        .dark .bg-white\/80 {
+            background-color: rgba(17, 24, 39, 0.8) !important;
+        }
+        
+        /* Cards and Containers */
+        .dark .card,
+        .dark .bg-gray-100 {
+            background-color: #1F2937 !important;
+            border-color: #374151 !important;
+        }
+        .dark .contact-card {
+            border: 2px solid #374151 !important;
+            background-color: #1F2937 !important;
+        }
+        .dark .my-stack-skill {
+            background-color: #374151 !important;
+            color: #F9FAFB !important;
+            border: 1px solid #4B5563 !important;
+        }
+        
+        /* Buttons and Links */
+        .dark .btn-secondary {
+            background-color: #374151 !important;
+            color: #F9FAFB !important;
+        }
+        .dark .btn-secondary:hover {
+            background-color: #4B5563 !important;
+        }
+        .dark .bg-gray-900 {
+            background-color: #1F2937 !important;
+        }
+        .dark .bg-gray-200 {
+            background-color: #374151 !important;
+        }
+        
+        /* Text Colors */
+        .dark .text-gray-300 {
+            color: #D1D5DB !important;
+        }
+        .dark .text-gray-400 {
+            color: #A1A1AA !important;
+        }
+        .dark .text-gray-500 {
+            color: #9CA3AF !important;
+        }
+        .dark .text-gray-600,
+        .dark .text-gray-700 {
+            color: #E5E7EB !important;
+        }
+        .dark .text-gray-800,
+        .dark .text-gray-200 {
+            color: #F3F4F6 !important;
+        }
+        .dark .text-indigo-400 {
+            color: #A5B4FC !important;
+        }
+        .dark .text-indigo-500 {
+            color: #8B5CF6 !important;
+        }
+        .dark .text-indigo-600 {
+            color: #6366F1 !important;
+        }
+        
+        /* Borders and Shadows */
+        .dark .border-gray-800 {
+            border-color: #374151 !important;
+        }
+        .dark .border-indigo-200 {
+            border-color: #4B5563 !important;
+        }
+        .dark .border-indigo-800 {
+            border-color: #1E40AF !important;
+        }
+        .dark .shadow-2xl {
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8) !important;
+        }
+        
+        /* Email Links */
+        .dark .contact-card a[href^="mailto:"] {
+            background: #374151 !important;
+            color: #8B5CF6 !important;
+        }
+        .dark a[href^="mailto:"] {
+            background-color: #374151 !important;
+            color: #8B5CF6 !important;
+        }
+        .dark a[href^="mailto:"]:hover {
+            background-color: #4B5563 !important;
+        }
+        /* Accent color */
+        .accent-dot::after {
+            content: '.';
+            color: #8B5CF6;
+        }
+        .accent-bar {
+            position: relative;
+            padding-left: 20px;
+        }
+        .accent-bar::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 5px;
+            bottom: 5px;
+            width: 4px;
+            background-color: #8B5CF6;
+            border-radius: 2px;
+        }
+        /* Experience Tabs styling */
+        .experience-tab {
+            cursor: pointer;
+            transition: color 0.2s;
+            color: #6B7280;
+        }
+        .experience-tab-active {
+            color: #8B5CF6;
+            font-weight: 600;
+        }
+        .experience-content {
+            display: none;
+        }
+        .experience-content-active {
+            display: block;
+        }
+        /* Optional: Make AOS animations even smoother */
+        [data-aos] {
+            transition-timing-function: cubic-bezier(0.77, 0, 0.175, 1) !important;
+        }
+        /* Contact section border */
+        .contact-card {
+            border: 2px solid #e5e7eb; /* light mode border */
+            background-color: #f3f4f6;
+        }
+        
+        /* ===== LIGHT MODE STYLES ===== */
+        
+        /* Light mode base colors */
+        body {
+            background-color: #fafafa;
+            color: #1a1a1a;
+        }
+        
+        html {
+            background-color: #fafafa;
+        }
+        
+        /* Light mode header */
+        .bg-white\/80 {
+            background-color: rgba(255, 255, 255, 0.9);
+            border-bottom: 1px solid #e5e7eb;
+        }
+        
+        /* Light mode text colors */
+        .text-gray-600 {
+            color: #525252 !important;
+        }
+        
+        .text-gray-700 {
+            color: #404040 !important;
+        }
+        
+        .text-gray-800 {
+            color: #262626 !important;
+        }
+        
+        .text-gray-300 {
+            color: #d4d4d4 !important;
+        }
+        
+        .text-gray-400 {
+            color: #a3a3a3 !important;
+        }
+        
+        .text-gray-500 {
+            color: #737373 !important;
+        }
+        
+        /* Light mode background colors */
+        .bg-gray-100 {
+            background-color: #f5f5f5 !important;
+        }
+        
+        .bg-gray-200 {
+            background-color: #e5e5e5 !important;
+        }
+        
+        .bg-gray-900 {
+            background-color: #171717 !important;
+        }
+        
+        /* Light mode card styles */
+        .card {
+            background-color: #ffffff !important;
+            border: 1px solid #e5e5e5 !important;
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06) !important;
+        }
+        
+        /* Light mode border colors */
+        .border-gray-800 {
+            border-color: #262626 !important;
+        }
+        
+        .border-indigo-200 {
+            border-color: #c7d2fe !important;
+        }
+        
+        .border-indigo-800 {
+            border-color: #3730a3 !important;
+        }
+        
+        /* Light mode shadow */
+        .shadow-2xl {
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15) !important;
+        }
+        
+        /* Light mode navigation */
+        .nav-link {
+            color: #525252 !important;
+        }
+        
+        .nav-link:hover {
+            color: #8b5cf6 !important;
+        }
+        
+        .nav-link-active {
+            color: #8b5cf6 !important;
+        }
+        
+        /* Light mode contact card */
+        .contact-card {
+            background-color: #ffffff !important;
+            border: 2px solid #e5e5e5 !important;
+        }
+        
+        /* Light mode email buttons */
+        a[href^="mailto:"] {
+            background-color: #f3f4f6 !important;
+            color: #374151 !important;
+        }
+        
+        a[href^="mailto:"]:hover {
+            background-color: #e5e7eb !important;
+        }
+        
+        /* Light mode button styles */
+        .bg-gray-900 {
+            background-color: #171717 !important;
+        }
+        
+        .bg-gray-200 {
+            background-color: #e5e5e5 !important;
+        }
+        
+        /* Light mode mobile navigation */
+        #mobile-nav {
+            background-color: #ffffff !important;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1) !important;
+        }
+        
+        /* Light mode theme toggle */
+        .theme-icon-dark {
+            color: #404040 !important;
+        }
+        
+        /* Light mode accent colors */
+        .text-indigo-500 {
+            color: #8b5cf6 !important;
+        }
+        
+        .text-indigo-600 {
+            color: #7c3aed !important;
+        }
+        
+        .text-indigo-400 {
+            color: #a78bfa !important;
+        }
+        
+        /* Light mode hover effects */
+        .hover\:bg-gray-800:hover {
+            background-color: #262626 !important;
+        }
+        
+        .hover\:bg-gray-300:hover {
+            background-color: #d4d4d4 !important;
+        }
+        
+        .hover\:bg-indigo-600:hover {
+            background-color: #7c3aed !important;
+        }
+        
+        /* Light mode transitions */
+        .transition-colors {
+            transition: color 0.2s ease-in-out;
+        }
+        
+        .transition-all {
+            transition: all 0.2s ease-in-out;
+        }
+        
+        /* Light mode responsive adjustments */
+        @media (max-width: 768px) {
+            .card {
+                background-color: #ffffff !important;
+                border-color: #e5e5e5 !important;
+            }
+            
+            .bg-gray-100 {
+                background-color: #f5f5f5 !important;
+            }
+            
+            .text-gray-600,
+            .text-gray-700,
+            .text-gray-800 {
+                color: #404040 !important;
+            }
+        }
+        
+        /* Light mode additional enhancements */
+        .bg-white {
+            background-color: #ffffff !important;
+        }
+        
+        .text-white {
+            color: #ffffff !important;
+        }
+        
+        .text-black {
+            color: #000000 !important;
+        }
+        
+        /* Light mode skill tags */
+        .my-stack-skill {
+            background-color: #ffffff !important;
+            color: #374151 !important;
+            border: 1px solid #e5e5e5 !important;
+        }
+        
+        /* Light mode section backgrounds */
+        .py-24 {
+            background-color: transparent;
+        }
+        
+        /* Light mode hero section */
+        .min-h-screen {
+            background-color: transparent;
+        }
+        
+        /* Light mode button hover states */
+        .hover\:scale-105:hover {
+            transform: scale(1.05) !important;
+        }
+        
+        /* Light mode focus states */
+        .focus\:outline-none:focus {
+            outline: none !important;
+        }
+        
+        .focus\:ring-2:focus {
+            box-shadow: 0 0 0 2px rgba(139, 92, 246, 0.5) !important;
+        }
+        
+        /* Light mode backdrop blur */
+        .backdrop-blur-sm {
+            backdrop-filter: blur(4px);
+        }
+        
+        /* ===== SOCIAL MEDIA ICONS ===== */
+        
+        /* Social icon base styles */
+        .social-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 2.5rem;
+            height: 2.5rem;
+            border-radius: 0.5rem;
+            transition: all 0.2s ease-in-out;
+            text-decoration: none;
+            color: #8b5cf6;
+        }
+        
+        .dark .social-icon {
+            color: #a5b4fc;
+        }
+        
+        /* LinkedIn icon specific styles */
+        .linkedin-icon {
+            background-color: rgba(139, 92, 246, 0.1);
+            border: 1px solid rgba(139, 92, 246, 0.2);
+        }
+        
+        .dark .linkedin-icon {
+            background-color: rgba(165, 180, 252, 0.1);
+            border: 1px solid rgba(165, 180, 252, 0.2);
+        }
+        
+        .linkedin-icon:hover {
+            background-color: rgba(139, 92, 246, 0.2);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);
+        }
+        
+        .dark .linkedin-icon:hover {
+            background-color: rgba(165, 180, 252, 0.2);
+            box-shadow: 0 4px 12px rgba(165, 180, 252, 0.3);
+        }
+        
+        /* GitHub icon specific styles */
+        .github-icon {
+            background-color: rgba(139, 92, 246, 0.1);
+            border: 1px solid rgba(139, 92, 246, 0.2);
+        }
+        
+        .dark .github-icon {
+            background-color: rgba(165, 180, 252, 0.1);
+            border: 1px solid rgba(165, 180, 252, 0.2);
+        }
+        
+        .github-icon:hover {
+            background-color: rgba(139, 92, 246, 0.2);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);
+        }
+        
+        .dark .github-icon:hover {
+            background-color: rgba(165, 180, 252, 0.2);
+            box-shadow: 0 4px 12px rgba(165, 180, 252, 0.3);
+        }
+        
+        /* Social icons container */
+        .social-icons {
+            display: flex;
+            gap: 1rem;
+        }
+        
+        /* Contact section social layout */
+        .contact-item .social-icons {
+            margin-left: 0.5rem;
         }
     </style>
 </head>
-<body class="bg-white text-gray-800">
+<body class="antialiased">
 
-    <!-- Header -->
-    <header class="fixed top-0 left-0 right-0 z-50 transition-all duration-300" id="header">
-        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
-            <a href="#" class="text-xl md:text-2xl font-bold text-cyan-600">K. PAVAN KUMAR REDDY</a>
-            <div class="hidden md:flex space-x-8 items-center">
-                <a href="#home" class="text-gray-600 hover:text-cyan-600 transition-colors duration-300">Home</a>
-                <a href="#about" class="text-gray-600 hover:text-cyan-600 transition-colors duration-300">About</a>
-                <a href="#projects" class="text-gray-600 hover:text-cyan-600 transition-colors duration-300">Projects</a>
-                <a href="#resume" class="text-gray-600 hover:text-cyan-600 transition-colors duration-300">Resume</a>
-                <a href="#contact" class="bg-cyan-500 hover:bg-cyan-600 text-white font-bold py-2 px-4 rounded-lg transition-transform duration-300 transform hover:scale-105">Contact</a>
-            </div>
-            <button id="mobile-menu-button" class="md:hidden text-gray-800 focus:outline-none">
-                <i data-lucide="menu"></i>
+    <!-- Header and Navigation -->
+    <header class="fixed top-0 left-0 right-0 z-50 bg-white/80 dark:bg-[#111827]/80 backdrop-blur-sm">
+        <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+            <a href="#home" class="text-2xl font-bold tracking-tighter">KALLURU<span class="text-indigo-500">.</span></a>
+            <!-- Hamburger for mobile -->
+            <button id="mobile-menu-btn" class="md:hidden p-2 rounded focus:outline-none">
+                <svg class="w-7 h-7 text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+                </svg>
             </button>
-        </nav>
-        <!-- Mobile Menu -->
-        <div id="mobile-menu" class="hidden md:hidden bg-white shadow-lg">
-            <a href="#home" class="block py-2 px-4 text-sm text-gray-600 hover:bg-gray-100">Home</a>
-            <a href="#about" class="block py-2 px-4 text-sm text-gray-600 hover:bg-gray-100">About</a>
-            <a href="#projects" class="block py-2 px-4 text-sm text-gray-600 hover:bg-gray-100">Projects</a>
-            <a href="#resume" class="block py-2 px-4 text-sm text-gray-600 hover:bg-gray-100">Resume</a>
-            <a href="#contact" class="block py-2 px-4 text-sm text-gray-600 hover:bg-gray-100">Contact</a>
+            <nav class="hidden md:flex items-center space-x-8" id="desktop-nav">
+                <a href="#home" class="nav-link nav-link-active text-indigo-500 font-medium">Home</a>
+                <a href="#about" class="nav-link text-gray-600 hover:text-indigo-500 transition-colors">About</a>
+                <a href="#experience" class="nav-link text-gray-600 hover:text-indigo-500 transition-colors">Experience</a>
+                <a href="#skills" class="nav-link text-gray-600 hover:text-indigo-500 transition-colors">Skills</a>
+                <a href="#education" class="nav-link text-gray-600 hover:text-indigo-500 transition-colors">Education</a>
+                <a href="#contact" class="nav-link text-gray-600 hover:text-indigo-500 transition-colors">Contact</a>
+            </nav>
+            <!-- Mobile nav -->
+            <nav id="mobile-nav" class="fixed top-16 left-0 right-0 bg-white dark:bg-[#111827] shadow-lg flex flex-col items-center space-y-4 py-6 z-50 hidden md:hidden">
+                <a href="#home" class="nav-link text-indigo-500 font-medium">Home</a>
+                <a href="#about" class="nav-link text-gray-600 dark:text-gray-300 hover:text-indigo-500 transition-colors">About</a>
+                <a href="#experience" class="nav-link text-gray-600 dark:text-gray-300 hover:text-indigo-500 transition-colors">Experience</a>
+                <a href="#skills" class="nav-link text-gray-600 dark:text-gray-300 hover:text-indigo-500 transition-colors">Skills</a>
+                <a href="#education" class="nav-link text-gray-600 dark:text-gray-300 hover:text-indigo-500 transition-colors">Education</a>
+                <a href="#contact" class="nav-link text-gray-600 dark:text-gray-300 hover:text-indigo-500 transition-colors">Contact</a>
+            </nav>
+            <div class="flex items-center">
+                <button id="theme-toggle" class="p-2 rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800">
+                    <svg id="theme-toggle-dark-icon" class="hidden h-6 w-6 text-gray-700 dark:text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+                    </svg>
+                    <svg id="theme-toggle-light-icon" class="hidden h-6 w-6 text-yellow-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+                    </svg>
+                </button>
+            </div>
         </div>
     </header>
 
-    <!-- Hero Section -->
-    <section id="home" class="min-h-screen flex items-center bg-cover bg-center" style="background-image: url('https://placehold.co/1920x1080/e0e7ff/4f46e5?text=Welcome');">
-        <div class="container mx-auto px-6 text-center">
-            <div class="glass-effect p-8 md:p-12 rounded-2xl inline-block">
-                <h1 class="text-4xl md:text-6xl font-bold text-gray-900 mb-4">Java Full Stack Developer</h1>
-                <p class="text-lg md:text-xl text-gray-700 max-w-2xl mx-auto">I build and deploy scalable web applications using Java, Spring Boot, and Angular/React.</p>
-                <a href="#projects" class="mt-8 inline-block bg-cyan-500 hover:bg-cyan-600 text-white font-bold py-3 px-8 rounded-lg text-lg transition-transform duration-300 transform hover:scale-105">View My Work</a>
-            </div>
-        </div>
-    </section>
+    <main class="container mx-auto px-2 pt-24">
 
-    <!-- About Section -->
-    <section id="about" class="py-20 bg-gray-50">
-        <div class="container mx-auto px-6">
-            <h2 class="text-3xl font-bold text-center mb-12 text-cyan-600">About Me</h2>
-            <div class="flex flex-col md:flex-row items-center gap-12">
-                <div class="md:w-1/3">
-                    <!-- CORRECT IMAGE PATH: 'assets/pavan-reddy.jpg' -->
-                    <img src="assets/pavan-reddy.jpg.jpg" alt="KALLURU PAVAN KUMAR REDDY" class="rounded-full mx-auto shadow-lg w-64 h-64 md:w-80 md:h-80 object-cover border-4 border-cyan-500">
-                </div>
-                <div class="md:w-2/3">
-                    <p class="text-gray-600 mb-4 leading-relaxed">
-                        Hello! I'm KALLURU PAVAN KUMAR REDDY, a dedicated Java Full Stack Developer proficient in building and deploying scalable web applications.
+        <!-- Section 1: Hero -->
+        <section id="home" class="min-h-screen flex flex-col md:flex-row items-center py-10 md:py-16" data-aos="fade-right">
+            <div class="grid md:grid-cols-2 gap-8 md:gap-16 items-center w-full">
+                <div class="space-y-6" data-aos="fade-right" data-aos-delay="100">
+                    <p class="text-lg text-gray-600 dark:text-gray-400">Hey, I'm</p>
+                    <h1 class="text-4xl sm:text-5xl md:text-7xl md:text-8xl font-black tracking-tighter leading-tight">
+                        <span class="text-indigo-500">KALLURU PAVAN KUMAR REDDY</span>
+                    </h1>
+                    <h2 class="text-2xl font-bold text-gray-800 dark:text-gray-200">Full Stack Developer</h2>
+                    <p class="text-lg md:text-xl text-gray-700 dark:text-gray-300">
+                        Recent B.Tech graduate with strong technical skills in Java Full Stack and Git. Passionate about building robust and scalable web applications.
                     </p>
-                    <p class="text-gray-600 mb-4 leading-relaxed">
-                        I am passionate about writing clean, efficient code and collaborating with teams to deliver high-quality software. I'm seeking to leverage my technical skills to contribute to a reputable and innovative organization.
-                    </p>
-                     <p class="text-gray-600 leading-relaxed">
-                        I have completed training at Jspiders Institute, where I gained hands-on experience in core Java, including logic building.
-                    </p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Projects Section -->
-    <section id="projects" class="py-20 bg-white">
-        <div class="container mx-auto px-6">
-            <h2 class="text-3xl font-bold text-center mb-12 text-cyan-600">My Projects</h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <div class="bg-white rounded-lg overflow-hidden shadow-lg border border-gray-200 transform hover:-translate-y-2 transition-transform duration-300">
-                    <img src="assets/pt-poster1.jpg.jpg" alt="Project 1" class="w-full h-48 object-cover">
-                    <div class="p-6">
-                        <h3 class="text-xl font-bold mb-2">SMART GLOVES FOR DUMB PEOPLE</h3>
-                        <p class="text-gray-600 mb-4">A wearable glove that translates sign language gestures into audible speech and text in real-time.</p>
-                        <a href="assets/manvitha final last (2).pdf" class="text-cyan-600 hover:text-cyan-700 font-semibold">View Presentation <i data-lucide="arrow-right" class="inline-block w-4 h-4"></i></a>
+                    <div class="flex flex-col sm:flex-row space-y-3 sm:space-y-0 sm:space-x-4 pt-4">
+                          <a href="assets/KALLURU-PAVAN-KUMAR-REDDY-FlowCV-Resume-20250725 (4).pdf" target="_blank"
+                           class="bg-gray-900 dark:bg-indigo-500 text-white font-semibold py-3 px-6 rounded-lg shadow-lg hover:bg-gray-800 dark:hover:bg-indigo-600 transition-all transform hover:scale-105 text-center">
+                            Resume
+                        </a>
+                        <a href="#contact" class="bg-gray-900 dark:bg-indigo-500 text-white font-semibold py-3 px-6 rounded-lg shadow-lg hover:bg-gray-800 dark:hover:bg-indigo-600 transition-all transform hover:scale-105 text-center">
+                            Get In Touch
+                        </a>
+                      
+                        <a href="mailto:reddypavn29@gmail.com" class="bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 font-semibold py-3 px-6 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-600 transition-all text-center">
+                            Email Me
+                        </a>
                     </div>
                 </div>
-                <div class="bg-white rounded-lg overflow-hidden shadow-lg border border-gray-200 transform hover:-translate-y-2 transition-transform duration-300">
-                    <img src="assets/pt-poster.jpg.jpg" alt="Project 2" class="w-full h-48 object-cover">
-                    <div class="p-6">
-                        <h3 class="text-xl font-bold mb-2">Portfolio Web page</h3>
-                        <p class="text-gray-600 mb-4">A brief description of the project. What it does, the technologies used, and your role.</p>
-                        <a href="#" class="text-cyan-600 hover:text-cyan-700 font-semibold">View Presentation <i data-lucide="arrow-right" class="inline-block w-4 h-4"></i></a>
+                <div class="flex justify-center items-center" data-aos="fade-left" data-aos-delay="200">
+                    <div class="hero-img-container relative" style="max-width:400px; min-width:220px;">
+                        <div class="absolute inset-0 border-4 border-indigo-200 dark:border-indigo-800 rounded-full animate-pulse"></div>
+                        <img src="assets\pavan-reddy.jpg.jpg"
+                             alt="KALLURU PAVAN KUMAR REDDY Portrait"
+                             class="w-full h-full object-cover rounded-full border-8 border-white dark:border-gray-800 shadow-2xl"
+                             style="min-height:220px; min-width:220px; max-height:400px; max-width:400px;">
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
+            
+           
+        </section>
 
-    <!-- Resume Section -->
-    <section id="resume" class="py-20 bg-gray-50">
-        <div class="container mx-auto px-6 text-center">
-            <h2 class="text-3xl font-bold mb-8 text-cyan-600">My Resume</h2>
-            <p class="text-gray-600 max-w-2xl mx-auto mb-8">
-                Here you can find a summary of my skills, experience, and education. Feel free to download a copy for your reference.
+        <!-- Section 2: About Me -->
+        <section id="about" class="py-24" data-aos="fade-up">
+            <h2 class="text-6xl font-black tracking-tighter mb-4 accent-dot" data-aos="fade-right" data-aos-delay="100">About me</h2>
+            <p class="text-xl text-gray-700 dark:text-gray-300 max-w-3xl accent-bar" data-aos="fade-left" data-aos-delay="200">
+                I am a passionate and dedicated Full Stack Developer, recently graduated with a B.Tech degree. I have a strong foundation in Java Full Stack development and version control with Git. I am eager to contribute and grow as a fresher in the software industry.
             </p>
-            <!-- CORRECT RESUME PATH: 'assets/your-resume-file.pdf' -->
-            <a href="assets/KALLURU-PAVAN-KUMAR-REDDY-FlowCV-Resume-20250722.pdf" download class="bg-cyan-500 hover:bg-cyan-600 text-white font-bold py-3 px-8 rounded-lg text-lg transition-transform duration-300 transform hover:scale-105 inline-flex items-center">
-                <i data-lucide="download" class="mr-2"></i> Resume
-            </a>
-            <div class="mt-12 bg-white p-8 rounded-lg text-left max-w-4xl mx-auto shadow-lg border border-gray-200">
-                <h3 class="text-2xl font-bold mb-6 text-cyan-600">Resume Preview</h3>
-                
-                <div class="grid md:grid-cols-2 gap-8">
-                    <!-- Skills -->
-                    <div>
-                        <h4 class="text-xl font-semibold text-gray-800 mb-4">Key Skills</h4>
-                        <ul class="list-disc list-inside text-gray-600 space-y-2">
-                            <li>Java</li>
-                            <li>HTML</li>
-                            <li>CSS</li>
-                            <li>JavaScript</li>
-                            <li>GitHub</li>
+            <div class="grid md:grid-cols-2 gap-12 mt-16">
+                <!-- My Stack -->
+                <div class="card bg-gray-100 dark:bg-gray-800 p-8 rounded-2xl" data-aos="fade-up-right" data-aos-delay="300">
+                    <h3 class="text-2xl font-bold mb-6">My Stack.</h3>
+                    <div class="flex flex-wrap gap-3">
+                        <span class="bg-white dark:bg-gray-700 my-stack-skill py-2 px-4 rounded-lg text-sm font-medium flex items-center gap-2">Java Full Stack</span>
+                        <span class="bg-white dark:bg-gray-700 my-stack-skill py-2 px-4 rounded-lg text-sm font-medium flex items-center gap-2">Git</span>
+                        <span class="bg-white dark:bg-gray-700 my-stack-skill py-2 px-4 rounded-lg text-sm font-medium flex items-center gap-2">Problem Solving</span>
+                        <span class="bg-white dark:bg-gray-700 my-stack-skill py-2 px-4 rounded-lg text-sm font-medium flex items-center gap-2">Teamwork</span>
+                        <span class="bg-white dark:bg-gray-700 my-stack-skill py-2 px-4 rounded-lg text-sm font-medium flex items-center gap-2">Quick Learner</span>
+                    </div>
+                </div>
+                <!-- My Special Place -->
+                <div class="card bg-gray-100 dark:bg-grey-800 p-8 rounded-2xl" data-aos="fade-up-left" data-aos-delay="400">
+                    <h3 class="text-2xl font-bold mb-4">My Special Place.</h3>
+                    <div id="globe-container" class="h-64 cursor-grab active:cursor-grabbing"></div>
+                    <p class="text-center text-sm text-gray-500 dark:text-gray-400 mt-2">Kadapa, Andhra Pradesh, India</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 3: Experience -->
+        <section id="experience" class="py-24" data-aos="fade-left">
+            <h2 class="text-6xl font-black tracking-tighter mb-12 accent-dot" data-aos="fade-right" data-aos-delay="100">Experience</h2>
+            <div class="flex flex-col md:flex-row gap-12">
+                <div class="md:w-1/4"></div>
+                <div class="md:w-3/4" data-aos="fade-left" data-aos-delay="300">
+                    <!-- Fresher Experience -->
+                    <div id="fresher-content" class="experience-content experience-content-active">
+                        <h3 class="text-2xl font-bold">Full Stack Developer (Fresher)</h3>
+                        <p class="text-gray-500 dark:text-gray-400 mb-6">2025 Graduate</p>
+                        <ul class="space-y-4">
+                            <li class="flex items-start gap-3">
+                                <svg class="w-6 h-6 text-indigo-500 mt-1 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg>
+                                <span>Strong foundation in Java Full Stack development and Git version control.</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <svg class="w-6 h-6 text-indigo-500 mt-1 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg>
+                                <span>Quick learner and effective team player with good problem-solving skills.</span>
+                            </li>
                         </ul>
                     </div>
-                    <!-- Education -->
-                    <div>
-                        <h4 class="text-xl font-semibold text-gray-800 mb-4">Education</h4>
-                        <div class="space-y-4">
-                            <div>
-                                <p class="font-semibold">B.Tech (2020-2025)</p>
-                                <p class="text-gray-600">Sri Venkateswara College of Engineering</p>
-                                <p class="text-sm text-gray-500">Graduated with 65%</p>
-                            </div>
-                             <div>
-                                <p class="font-semibold">Higher Secondary Education (2018-2020)</p>
-                                <p class="text-gray-600">Narayana Junior College</p>
-                                <p class="text-sm text-gray-500">7.0 CGPA</p>
-                            </div>
-                             <div>
-                                <p class="font-semibold">SSC (2018)</p>
-                                <p class="text-gray-600">Bhashyam High School</p>
-                                <p class="text-sm text-gray-500">9.3 CGPA</p>
-                            </div>
-                        </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 4: Projects -->
+        <section id="projects" class="py-24" data-aos="fade-up">
+            <h2 class="text-6xl font-black tracking-tighter mb-12 accent-dot" data-aos="fade-right" data-aos-delay="100">Projects</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- Project 1: Manvitha -->
+                <div class="card bg-gray-100 dark:bg-gray-800 p-8 rounded-2xl flex flex-col items-center">
+                    <img src="assets/pt-poster1.jpg.jpg"
+                         alt="SMART GLOVES FOR DUMB PEOPLE"
+                         class="mb-4 w-full max-w-xs h-56 object-cover rounded-lg shadow-md"
+                         style="object-position: center;">
+                    <h3 class="text-xl font-semibold mb-2">SMART GLOVES FOR DUMB PEOPLE</h3>
+                    <p class="text-gray-600 dark:text-gray-400 text-center mb-4">
+                        A wearable glove that translates sign language gestures into audible speech and text in real-time.
+                    </p>
+                    <a href="assets\manvitha final last (2).pdf" target="_blank"
+                       class="bg-indigo-600 text-white font-semibold py-2 px-5 rounded-lg shadow hover:bg-indigo-700 transition-all text-center">
+                        View Presentation
+                    </a>
+                </div>
+                <!-- Project 2: Portfolio Web page -->
+                <div class="card bg-gray-100 dark:bg-gray-800 p-8 rounded-2xl flex flex-col items-center">
+                    <img src="assets/pt-poster.jpg.jpg"
+                         alt="Portfolio Web page"
+                         class="mb-4 w-full max-w-xs h-56 object-cover rounded-lg shadow-md"
+                         style="object-position: center;">
+                    <h3 class="text-xl font-semibold mb-2">Portfolio Web page</h3>
+                    <p class="text-gray-600 dark:text-gray-400 text-center mb-4">
+                        A responsive and modern portfolio webpage showcasing my frontend skills.
+                    </p>
+                    <a href="#" target="_blank"
+                       class="bg-indigo-600 text-white font-semibold py-2 px-5 rounded-lg shadow hover:bg-indigo-700 transition-all text-center">
+                        View Presentation
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 5: Skills -->
+        <section id="skills" class="py-24" data-aos="fade-up">
+            <h2 class="text-6xl font-black tracking-tighter mb-12 accent-dot" data-aos="fade-right" data-aos-delay="100">Skills</h2>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
+                <div class="space-y-3" data-aos="fade-up" data-aos-delay="200">
+                    <h3 class="text-xl font-bold">Programming</h3>
+                    <ul class="space-y-2 text-gray-600 dark:text-gray-400">
+                        <li>Java Full Stack</li>
+                        <li>Git</li>
+                        <li>HTML, CSS, JavaScript</li>
+                    </ul>
+                </div>
+                <div class="space-y-3" data-aos="fade-up" data-aos-delay="300">
+                    <h3 class="text-xl font-bold">Soft Skills</h3>
+                    <ul class="space-y-2 text-gray-600 dark:text-gray-400">
+                        <li>Problem Solving</li>
+                        <li>Teamwork</li>
+                        <li>Quick Learner</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 6: Education -->
+        <section id="education" class="py-24" data-aos="fade-up">
+            <h2 class="text-6xl font-black tracking-tighter mb-12 accent-dot" data-aos="fade-right" data-aos-delay="100">Education</h2>
+            <div class="space-y-8">
+                 <div class="card bg-gray-100 dark:bg-gray-800 p-8 rounded-2xl">
+                    <h3 class="text-2xl font-bold">SSC, Bhashyam High School</h3>
+                    <p class="text-gray-500 dark:text-gray-400 mb-2">2018</p>
+                    <p class="text-gray-700 dark:text-gray-300">Completed with 9.3 CGPA.</p>
+                </div>
+                 <div class="card bg-gray-100 dark:bg-gray-800 p-8 rounded-2xl">
+                    <h3 class="text-2xl font-bold">Higher Secondary Education (MPC), Narayana Junior College</h3>
+                    <p class="text-gray-500 dark:text-gray-400 mb-2">2018 – 2020</p>
+                    <p class="text-gray-700 dark:text-gray-300">Completed with 7.0 CGPA.</p>
+                </div>
+                <div class="card bg-gray-100 dark:bg-gray-800 p-8 rounded-2xl">
+                    <h3 class="text-2xl font-bold">B.Tech, Sri Venkateswara College of Engineering</h3>
+                    <p class="text-gray-500 dark:text-gray-400 mb-2">2020 – 2025</p>
+                    <p class="text-gray-700 dark:text-gray-300">Graduated with 65% with all technical skills.</p>
+                </div>
+               
+            </div>
+        </section>
+
+        <!-- Section 6: Contact -->
+        <section id="contact" class="py-24" data-aos="fade-up">
+            <h2 class="text-6xl font-black tracking-tighter mb-12 accent-dot" data-aos="fade-right" data-aos-delay="100">Contact</h2>
+            <div class="max-w-xl mx-auto bg-gray-100 dark:bg-gray-800 p-8 rounded-2xl space-y-4 contact-card">
+                <div class="flex items-center space-x-4">
+                    <span class="font-bold">Phone:</span>
+                    <a href="tel:8074940397" class="text-indigo-600 dark:text-indigo-400 hover:underline">8074940397</a>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <span class="font-bold">Email:</span>
+                    <a href="mailto:reddypavn29@gmail.com" class="text-indigo-600 dark:text-indigo-400 hover:underline">reddypavn29@gmail.com</a>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <span class="font-bold">Social:</span>
+                    <div class="flex space-x-4">
+                        <a href="https://www.linkedin.com/in/pavan-kumar-reddy-2ab14621a/" target="_blank" class="social-icon linkedin-icon" title="LinkedIn">
+                            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.047-1.852-3.047-1.853 0-2.136 1.445-2.136 2.939v5.677H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                            </svg>
+                        </a>
+                        <a href="https://github.com/PavanReddy-27" target="_blank" class="social-icon github-icon" title="GitHub">
+                            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                            </svg>
+                        </a>
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
-
-    <!-- Contact Section -->
-    <section id="contact" class="py-20 bg-white">
-        <div class="container mx-auto px-6 text-center">
-            <h2 class="text-3xl font-bold mb-4 text-cyan-600">Get In Touch</h2>
-            <p class="text-gray-600 max-w-xl mx-auto mb-8">I'm currently open to new opportunities. If you have a project in mind or just want to say hi, feel free to reach out.</p>
-            <a href="mailto:Reddypavn29@gmail.com" class="text-2xl text-cyan-600 hover:text-cyan-700 font-semibold">Reddypavn29@gmail.com</a>
-            <p class="text-lg text-gray-700 mt-4">Mobile: <a href="tel:8074940397" class="text-cyan-600 hover:text-cyan-700 font-semibold">8074940397</a></p>
-            <div class="flex justify-center space-x-6 mt-8">
-                <a href="https://github.com" target="_blank" class="text-gray-500 hover:text-cyan-600 transition-colors duration-300"><i data-lucide="github" class="w-8 h-8"></i></a>
-                <a href="https://linkedin.com/in/pavan-kumar-reddy-2ab14621a" target="_blank" class="text-gray-500 hover:text-cyan-600 transition-colors duration-300"><i data-lucide="linkedin" class="w-8 h-8"></i></a>
-                <a href="https://twitter.com" target="_blank" class="text-gray-500 hover:text-cyan-600 transition-colors duration-300"><i data-lucide="twitter" class="w-8 h-8"></i></a>
-            </div>
-        </div>
-    </section>
+        </section>
+    </main>
 
     <!-- Footer -->
-    <footer class="bg-gray-100 py-6">
-        <div class="container mx-auto px-6 text-center text-gray-600">
+    <footer class="border-t dark:border-gray-800 mt-16">
+        <div class="container mx-auto px-6 py-8 text-center text-gray-500 dark:text-gray-400">
             <p>&copy; 2024 KALLURU PAVAN KUMAR REDDY. All Rights Reserved.</p>
         </div>
     </footer>
 
     <script>
-        // This script runs after the entire HTML document has been loaded.
         document.addEventListener('DOMContentLoaded', () => {
-            // Initialize Lucide Icons
-            try {
-                lucide.createIcons();
-            } catch (e) {
-                console.error("Lucide icons could not be created.", e);
+            // --- Dark/Light Mode Toggle ---
+            const themeToggleBtn = document.getElementById('theme-toggle');
+            const darkIcon = document.getElementById('theme-toggle-dark-icon');
+            const lightIcon = document.getElementById('theme-toggle-light-icon');
+
+            // Check for saved theme in localStorage
+            if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                document.documentElement.classList.add('dark');
+                lightIcon.classList.remove('hidden');
+                darkIcon.classList.add('hidden');
+            } else {
+                document.documentElement.classList.remove('dark');
+                darkIcon.classList.remove('hidden');
+                lightIcon.classList.add('hidden');
             }
 
-            // --- Mobile Menu Toggle Functionality ---
-            const mobileMenuButton = document.getElementById('mobile-menu-button');
-            const mobileMenu = document.getElementById('mobile-menu');
+            themeToggleBtn.addEventListener('click', () => {
+                // toggle icons
+                darkIcon.classList.toggle('hidden');
+                lightIcon.classList.toggle('hidden');
 
-            // This ensures the code doesn't break if the elements are not found.
-            if (mobileMenuButton && mobileMenu) {
-                // Listen for a click on the menu button.
-                mobileMenuButton.addEventListener('click', () => {
-                    // Toggle the 'hidden' class to show/hide the menu.
-                    mobileMenu.classList.toggle('hidden');
+                // if set via local storage previously
+                if (localStorage.getItem('theme')) {
+                    if (localStorage.getItem('theme') === 'light') {
+                        document.documentElement.classList.add('dark');
+                        localStorage.setItem('theme', 'dark');
+                    } else {
+                        document.documentElement.classList.remove('dark');
+                        localStorage.setItem('theme', 'light');
+                    }
+                // if NOT set via local storage previously
+                } else {
+                    if (document.documentElement.classList.contains('dark')) {
+                        document.documentElement.classList.remove('dark');
+                        localStorage.setItem('theme', 'light');
+                    } else {
+                        document.documentElement.classList.add('dark');
+                        localStorage.setItem('theme', 'dark');
+                    }
+                }
+            });
+
+            // --- Experience Tabs ---
+            const tabs = document.querySelectorAll('.experience-tab');
+            const contents = document.querySelectorAll('.experience-content');
+
+            tabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    const target = tab.getAttribute('data-tab');
+
+                    // Update tab active state
+                    tabs.forEach(t => {
+                        t.classList.remove('experience-tab-active');
+                    });
+                    tab.classList.add('experience-tab-active');
+
+                    // Update content visibility
+                    contents.forEach(content => {
+                        content.classList.remove('experience-content-active');
+                        if (content.id === `${target}-content`) {
+                            content.classList.add('experience-content-active');
+                        }
+                    });
                 });
+            });
 
-                // --- Close mobile menu on link click ---
-                // This ensures that when a user clicks a link in the mobile menu, the menu closes.
-                document.querySelectorAll('#mobile-menu a').forEach(link => {
+            // --- 3D Globe with Three.js ---
+            const container = document.getElementById('globe-container');
+            if(container) {
+                let scene, camera, renderer, globe, marker;
+                let isDragging = false;
+                let previousMousePosition = { x: 0, y: 0 };
+
+                function initGlobe() {
+                    // Scene
+                    scene = new THREE.Scene();
+
+                    // Camera
+                    camera = new THREE.PerspectiveCamera(75, container.clientWidth / container.clientHeight, 0.1, 1000);
+                    camera.position.z = 2.5;
+
+                    // Renderer
+                    renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+                    renderer.setSize(container.clientWidth, container.clientHeight);
+                    renderer.setPixelRatio(window.devicePixelRatio);
+                    container.appendChild(renderer.domElement);
+
+                    // Globe (Sphere with points)
+                    const geometry = new THREE.SphereGeometry(1.5, 64, 64);
+                    const isDarkMode = document.documentElement.classList.contains('dark');
+                    const pointsMaterial = new THREE.PointsMaterial({
+                        color: isDarkMode ? 0x60A5FA : 0x374151,
+                        size: 0.015
+                    });
+                    globe = new THREE.Points(geometry, pointsMaterial);
+                    scene.add(globe);
+                    
+                    // Marker for "Special Place" (Italy)
+                    const markerGeometry = new THREE.SphereGeometry(0.05, 16, 16);
+                    const markerMaterial = new THREE.MeshBasicMaterial({ color: 0x8B5CF6 });
+                    marker = new THREE.Mesh(markerGeometry, markerMaterial);
+                    
+                    // Convert lat/lon (approx. for Italy) to 3D coordinates
+                    const lat = 41.8719; // latitude
+                    const lon = 12.5674; // longitude
+                    const radius = 1.5;
+                    const phi = (90 - lat) * (Math.PI / 180);
+                    const theta = (lon + 180) * (Math.PI / 180);
+                    marker.position.x = -(radius * Math.sin(phi) * Math.cos(theta));
+                    marker.position.y = radius * Math.cos(phi);
+                    marker.position.z = radius * Math.sin(phi) * Math.sin(theta);
+                    
+                    globe.add(marker);
+
+
+                    // Animation loop
+                    function animate() {
+                        requestAnimationFrame(animate);
+                        if (!isDragging) {
+                            globe.rotation.y += 0.001;
+                        }
+                        renderer.render(scene, camera);
+                    }
+                    animate();
+
+                    // Handle window resize
+                    window.addEventListener('resize', () => {
+                        camera.aspect = container.clientWidth / container.clientHeight;
+                        camera.updateProjectionMatrix();
+                        renderer.setSize(container.clientWidth, container.clientHeight);
+                    });
+
+                    // Mouse drag controls
+                    container.addEventListener('mousedown', (e) => {
+                        isDragging = true;
+                        previousMousePosition = { x: e.clientX, y: e.clientY };
+                    });
+                    document.addEventListener('mouseup', () => {
+                        isDragging = false;
+                    });
+                    document.addEventListener('mousemove', (e) => {
+                        if (isDragging) {
+                            const deltaMove = {
+                                x: e.clientX - previousMousePosition.x,
+                                y: e.clientY - previousMousePosition.y
+                            };
+                            globe.rotation.y += deltaMove.x * 0.005;
+                            globe.rotation.x += deltaMove.y * 0.005;
+                            previousMousePosition = { x: e.clientX, y: e.clientY };
+                        }
+                    });
+                }
+                initGlobe();
+            }
+
+            // --- Initialize AOS ---
+            AOS.init({
+                duration: 500,   // Faster animation
+                once: false,     // Animate every time you scroll
+                offset: 30,      // Trigger earlier
+                easing: 'ease-in-out', // Smoother
+                mirror: true     // Animate out while scrolling up
+            });
+
+            // Mobile menu toggle
+            const mobileBtn = document.getElementById('mobile-menu-btn');
+            const mobileNav = document.getElementById('mobile-nav');
+            if (mobileBtn && mobileNav) {
+                mobileBtn.addEventListener('click', () => {
+                    mobileNav.classList.toggle('hidden');
+                });
+                // Hide menu on link click
+                mobileNav.querySelectorAll('a').forEach(link => {
                     link.addEventListener('click', () => {
-                        mobileMenu.classList.add('hidden');
+                        mobileNav.classList.add('hidden');
                     });
                 });
             }
-            
-            // --- Header Background Change on Scroll ---
-            const header = document.getElementById('header');
-            if (header) {
-                // Listen for scroll events on the window.
-                window.addEventListener('scroll', () => {
-                    // The second argument of toggle is a boolean. If true, the class is added. If false, it's removed.
-                    // This adds the 'scrolled' class when the user scrolls more than 50 pixels down.
-                    header.classList.toggle('scrolled', window.scrollY > 50);
-                });
-            }
-
-            // --- Typewriter Effect for Hero Title ---
-            const titleElement = document.getElementById('hero-title');
-            const titleText = "Java Full Stack Developer";
-            
-            if (titleElement && titleText) {
-                let i = 0;
-                function typeWriter() {
-                    if (i < titleText.length) {
-                        // Set the text to the substring and add the blinking cursor.
-                        titleElement.innerHTML = titleText.substring(0, i + 1) + '<span class="cursor"></span>';
-                        i++;
-                        // Call this function again after a short delay.
-                        setTimeout(typeWriter, 100); // Adjust typing speed here (in milliseconds)
-                    } else {
-                        // When typing is done, ensure the full text and cursor are displayed.
-                        titleElement.innerHTML = titleText + '<span class="cursor"></span>';
-                    }
-                }
-                // Start the typewriter effect.
-                typeWriter();
-            }
         });
     </script>
+
 </body>
 </html>
